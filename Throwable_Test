@@ -1,0 +1,33 @@
+package com.company;
+
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Throwable_Test
+{
+    public static void main(String[] args)
+    {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Please input your age:");
+        int my_age = in.nextInt();
+        try {
+            Throwable_Test.age_test(my_age);
+        }
+        catch (myexception exception) {
+            String error_message = exception.getMessage();
+            System.out.println(error_message);
+        }
+    }
+    public static void age_test(int my_age) throws myexception
+    {
+        if(my_age < 0)
+            throw new myexception("用户的年龄不能小于0");
+        else
+            System.out.println("Your age is " + my_age);
+    }
+}
+class myexception extends IOException
+{
+    public myexception(){}
+    public myexception(String gripe){super(gripe);}
+}
