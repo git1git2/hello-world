@@ -1,33 +1,63 @@
 package com.company;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Throwable_Test
 {
     public static void main(String[] args)
     {
-        Scanner in = new Scanner(System.in);
+        Scanner in=new Scanner(System.in);
         System.out.println("Please input your age:");
-        int my_age = in.nextInt();
+        int my_age=in.nextInt();
         try {
-            Throwable_Test.age_test(my_age);
+            try {
+                Throwable_Test.age_test(my_age);       //调用了一个抛出受查异常的方法，需要调用者自己处理
+            }
+            catch (myexception e) {
+                String error_message=e.getMessage();
+                System.out.println(error_message);
+                throw new myexception2("It is impossible! ");
+            }
         }
-        catch (myexception exception) {
-            String error_message = exception.getMessage();
-            System.out.println(error_message);
+        catch (myexception2 e)
+        {
+            System.out.println(e.getMessage());
         }
     }
-    public static void age_test(int my_age) throws myexception
-    {
-        if(my_age < 0)
+    public static void age_test(int my_age) throws  myexception  //or Exception/Throwable
+    {                                       //告诉用户该方法可能产生异常，必须处理.
+        if(my_age<0)
             throw new myexception("用户的年龄不能小于0");
         else
-            System.out.println("Your age is " + my_age);
+            System.out.println("Your age is "+my_age);
+    }
+    public void read(String filename)    //内部处理（捕获知道如何处理的异常，而将编写方法时未能处理的异常传递给调用者）
+    {
+        try {
+            InputStream in = new FileInputStream(filename);
+            int b;
+            while ((b=in.read())!=-1)
+            {
+                //do something.
+            }
+        }
+        catch (IOException exception)
+        {
+            exception.printStackTrace();
+        }
     }
 }
 class myexception extends IOException
 {
     public myexception(){}
     public myexception(String gripe){super(gripe);}
+}
+class myexception2 extends IOException
+{
+    public myexception2(){}
+    public myexception2(String gripe){super(gripe);}
 }
