@@ -1,0 +1,33 @@
+package com.company;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+public class Fileinput_output_test {
+    public static void main(String[] args){
+        FileInputStream in=null;
+        FileOutputStream out=null;
+        try {
+            in=new FileInputStream("From.txt");
+            out=new FileOutputStream("To.txt");
+            byte[] store=new byte[1024];
+            while (in.read()!=-1){
+                int temp=in.read(store,0,1024); //Return:the total number of bytes read into the buffer
+                out.write(store,0,temp);  //or -1 if there is no more data because the end of the file has been reached.
+            }
+        }
+        catch (IOException e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            try {
+                in.close();
+                out.close();
+            }
+            catch (IOException io) {
+                System.out.println(io.getMessage());
+            }
+        }
+    }
+}
