@@ -1,0 +1,23 @@
+package com.company;
+
+//用字节流读取并下载网络图片
+
+import java.io.*;
+import java.net.URL;
+
+public class Main {
+    public static void main(String[] args){
+        try {
+            URL url = new URL("http://ci.hfut.edu.cn/_upload/article/images/3b/90/9f36692e4c688f7a9a184e230a3b/f90f61ca-c214-4b53-b679-91d666d09949.jpg");
+            BufferedInputStream bis=new BufferedInputStream(url.openStream()); //constructor: BufferedInputStream(InputStream in);  url方法：Final InputStream openStream()
+            FileOutputStream fos = new FileOutputStream("image.jpg");
+            int content = -1;
+            while ((content=bis.read())!=-1) {       //Returns:
+                fos.write(content);//the next byte of data, or -1 if the end of the file is reached.
+            }                         // The value byte is returned as an int in the range 0 to 255.
+            bis.close();    fos.close();
+        }catch (Exception e){
+            System.out.println(e.getStackTrace());
+        }
+    }
+}
